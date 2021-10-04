@@ -1,10 +1,4 @@
 terraform {
-  backend "remote" {
-   organization = "zelarsoft"
-   workspaces {
-     name = "Example-Workspace"
-   }
- }
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -14,9 +8,10 @@ terraform {
 
   required_version = ">= 0.14.9"
 }
+
 provider "aws" {
   profile = "default"
-  region  = "us-east-1"
+  region  = "us-west-2"
 }
 
 resource "aws_instance" "app_server" {
@@ -24,6 +19,7 @@ resource "aws_instance" "app_server" {
   instance_type = "t2.micro"
 
   tags = {
-    Name = var.instance_name
+    Name = "ExampleAppServerInstance"
   }
 }
+
