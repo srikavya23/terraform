@@ -1,18 +1,33 @@
-module "ec2_instance" {
-  source  = "terraform-aws-modules/ec2-instance/aws"
-  version = "~> 0.12.0"
+provider "aws" {
+  region = "us-east-1"
+}
 
-  name = "single-instance"
-
-  ami                    = "ami-ebd02392"
-  instance_type          = "t2.micro"
-  key_name               = "user1"
-  monitoring             = true
-  vpc_security_group_ids = ["sg-12345678"]
-  subnet_id              = "subnet-eddcdzz4"
-
+resource "aws_security_group" "terraform" {
+  name = "allow_terraform"
+  description = "Allow TF inbound traffic"
+  ingress {
+    from_port = 22
+    protocol = "tcp"
+    to_port = 22
+    cidr_blocks = [
+      "0.0.0.0/0"]
+  }
+  egress {
+    from_port = 0
+    protocol = "-1"
+    to_port = 0
+    cidr_blocks = [
+      "0.0.0.0/0"]
+   }
   tags = {
-    Terraform   = "true"
-    Environment = "dev"
+    Name = "terraform"
+  }
+}
+resource "aws_instance" "sample" {
+  ami          = "ami-0eb5f3f64b10d3e0e"
+  instance_type = "t2.micro"
+  security_groups = ["${aws_security_group.terraform.name}"]
+  tags = {
+    Name = "HelloWorld"
   }
 }
