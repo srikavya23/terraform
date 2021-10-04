@@ -6,12 +6,12 @@ terraform {
     }
   }
 
-  required_version = ">= 0.14.9"
+  required_version = ">= 0.12.29"
 }
 
 provider "aws" {
   profile = "default"
-  region  = "us-west-2"
+  region  = "us-east-1"
 }
 
 resource "aws_instance" "app_server" {
