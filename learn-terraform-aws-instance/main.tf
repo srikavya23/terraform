@@ -1,10 +1,12 @@
 terraform {
   backend "remote" {
-   organization = "zelatsoftprivatelimited"
-   workspaces {
-     name = "Example-Workspace"
-   }
- }
+    organization = "zelarsoftprivatelimited"
+
+    workspaces {
+      name = "sample"
+    }
+  }
+}
   required_providers {
     aws = {
       source  = "hashicorp/aws"
