@@ -1,5 +1,12 @@
 terraform {
-  required_providers {
+  backend "remote" {
+    organization = "naveen5035"
+
+    workspaces {
+      name = "sample"
+    }
+  }
+required_providers {
     aws = {
       source  = "hashicorp/aws"
       version = "~> 3.27"
@@ -19,7 +26,6 @@ resource "aws_instance" "app_server" {
   instance_type = "t2.micro"
 
   tags = {
-    Name = "ExampleAppServerInstance"
+    Name = var.instance_name
   }
 }
-
