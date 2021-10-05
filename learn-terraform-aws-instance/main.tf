@@ -1,21 +1,19 @@
 terraform {
   backend "remote" {
-    organization = "zelarsoftprivatelimited"
-
-    workspaces {
-      name = "sample"
-    }
-  }
-required_providers {
+   organization = "zelatsoftprivatelimited"
+   workspaces {
+     name = "Example-Workspace"
+   }
+ }
+  required_providers {
     aws = {
       source  = "hashicorp/aws"
       version = "~> 3.27"
     }
   }
 
-  required_version = ">= 0.14.9"
+  required_version = ">=1.0.6"
 }
-
 provider "aws" {
   profile = "default"
   region  = "us-east-1"
