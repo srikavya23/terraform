@@ -1,6 +1,6 @@
 terraform {
   backend "remote" {
-    organization = "zelarsoftprivatelimited"
+    organization = "naveen5035"
 
     workspaces {
       name = "sample"
@@ -157,5 +157,5 @@ resource "aws_route_table_association" "private-subnet-2-route-table-association
 }
 resource "aws_route_table_association" "private-subnet-3-route-table-association"{
   subnet_id = "${aws_subnet.private-subnet-3.id}"
-  route_table_id = "${aws_route
+  route_table_id = "${aws_route_table.private-route-table.id}"
 }
