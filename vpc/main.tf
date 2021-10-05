@@ -13,128 +13,42 @@ terraform {
     }
   }
 
-  required_version = ">= 1.0.8"
+  required_version = ">= 0.14.9"
 }
 
 provider "aws" {
-  region     = "us-east-1"
+  region = local.region
 }
 
-resource "aws_vpc" "vpc" {
-  cidr_block              = "var.vpc-cidr"
-  instance_tenancy        = "default"
-  enable_dns_hostnames    = true
+################################################################################
+# VPC Module
+################################################################################
 
-  tags      = {
-    Name    = "Sample VPC"
-  }
-}
+module "vpc" {
+  source = "terraform-aws-modules/vpc/aws"
 
+  name = "simple-example"
+  cidr = "10.0.0.0/16"
 
-resource "aws_internet_gateway" "internet-gateway" {
-  vpc_id    = aws_vpc.vpc.id
+  azs             = ["eu-west-1a", "eu-west-1b", "eu-west-1c"]
+  private_subnets = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
+  public_subnets  = ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"]
 
-  tags      = {
-    Name    = "Sample IGW"
-  }
-}
+  enable_ipv6 = true
 
+  enable_nat_gateway = false
+  single_nat_gateway = true
 
-resource "aws_subnet" "public-subnet-1" {
-  vpc_id                  = aws_vpc.vpc.id
-  cidr_block              = "var.public-subnet-1-cidr"
-  availability_zone       = "us-east-1a"
-  map_public_ip_on_launch = true
-
-  tags      = {
-    Name    = "Public Subnet 1"
-  }
-}
-
-
-resource "aws_subnet" "public-subnet-2" {
-  vpc_id                  = aws_vpc.vpc.id
-  cidr_block              = "var.public-subnet-2-cidr"
-  availability_zone       = "us-east-1b"
-  map_public_ip_on_launch = true
-
-  tags      = {
-    Name    = "Public Subnet 2"
-  }
-}
-
-resource "aws_subnet" "public-subnet-3" {
-  vpc_id                   = aws_vpc.vpc.id
-  cidr_block               = "var.public-subnet-3-cidr"
-  availability_zone        = "us-east-1a"
-  map_public_ip_on_launch  = false
-
-  tags      = {
-    Name    = "Public Subnet 3"
-  }
-}
-
-resource "aws_route_table" "public-route-table" {
-  vpc_id       = aws_vpc.vpc.id
-
-  route {
-    cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.internet-gateway.id
+  public_subnet_tags = {
+    Name = "overridden-name-public"
   }
 
-  tags       = {
-    Name     = "Public Route Table"
+  tags = {
+    Owner       = "user"
+    Environment = "dev"
   }
-}
 
-
-resource "aws_route_table_association" "public-subnet-1-route-table-association" {
-  subnet_id           = aws_subnet.public-subnet-1.id
-  route_table_id      = aws_route_table.public-route-table.id
-}
-
-
-resource "aws_route_table_association" "public-subnet-2-route-table-association" {
-  subnet_id           = aws_subnet.public-subnet-2.id
-  route_table_id      = aws_route_table.public-route-table.id
-}
-
-resource "aws_route_table_association" "public-subnet-3-route-table-association" {
-  subnet_id           = aws_subnet.public-subnet-3.id
-  route_table_id      = aws_route_table.public-route-table.id
-}
-
-resource "aws_subnet" "private-subnet-1" {
-  vpc_id                   = aws_vpc.vpc.id
-  cidr_block               = "var.private-subnet-1-cidr"
-  availability_zone        = "us-east-1a"
-  map_public_ip_on_launch  = false
-
-  tags      = {
-    Name    = "Private Subnet 1"
-  }
-}
-
-
-resource "aws_subnet" "private-subnet-2" {
-  vpc_id                   = aws_vpc.vpc.id
-  cidr_block               = "var.private-subnet-2-cidr"
-  availability_zone        = "us-east-1b"
-  map_public_ip_on_launch  = false
-
-  tags      = {
-    Name    = "Private Subnet 2"
-  }
-}
-
-
-resource "aws_subnet" "private-subnet-3" {
-  vpc_id                   = aws_vpc.vpc.id
-  cidr_block               = "var.private-subnet-3-cidr"
-  availability_zone        = "us-east-1a"
-  map_public_ip_on_launch  = false
-
-  tags      = {
-    Name    = "Private Subnet 3"
+  vpc_tags = {
+    Name = "vpc"
   }
 }
