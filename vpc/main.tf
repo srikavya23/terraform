@@ -1,6 +1,13 @@
-module "vpc" {
-  source = "terraform-aws-modules/vpc/aws"
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 3.27"
+    }
+  }
 
+  required_version = ">= 0.12.29"
+}
   name = "my-vpc"
   cidr = "10.0.0.0/16"
 
