@@ -3,9 +3,10 @@ terraform {
     organization = "zelarsoftprivatelimited"
 
     workspaces {
-      name = "sample"
+      name = "vpc"
     }
   }
+}
   required_providers {
     aws = {
       source  = "hashicorp/aws"
