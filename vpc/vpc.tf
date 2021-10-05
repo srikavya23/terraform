@@ -25,7 +25,7 @@ resource "aws_vpc" "vpc" {
   instance_tenancy        = "default"
 
   tags      = {
-    Name    = "VPC"
+    Name    = "Sample"
   }
 }
 
@@ -33,7 +33,7 @@ resource "aws_internet_gateway" "internet-gateway" {
   vpc_id    = aws_vpc.vpc.id
 
   tags      = {
-    Name    = "sample"
+    Name    = "Sample"
   }
 }
 
@@ -58,9 +58,9 @@ resource "aws_subnet" "public-subnet-2" {
 }
 
 resource "aws_subnet" "public-subnet-3" {
-  vpc_id                  = aws_vpc.vpc.id
-  cidr_block              = "${var.public-subnet-3-cidr}"
-  availability_zone       = "us-east-1c"
+  vpc_id                   = aws_vpc.vpc.id
+  cidr_block               = "${var.public-subnet-3-cidr}"
+  availability_zone        = "us-east-1c"
 
   tags      = {
     Name    = "Public Subnet 3"
@@ -94,6 +94,15 @@ resource "aws_route_table_association" "public-subnet-3-route-table-association"
   subnet_id           = aws_subnet.public-subnet-3.id
   route_table_id      = aws_route_table.public-route-table.id
 }
+
+resource "aws_nat_gateway" "public_subent-1" {
+  connectivity_type = "private"
+  subnet_id         = aws_subnet.public-subnet-1.id
+  tags      = {
+    Name    = "Nat-1"
+  }
+}
+
 
 resource "aws_subnet" "private-subnet-1" {
   vpc_id                   = aws_vpc.vpc.id
@@ -129,7 +138,7 @@ resource "aws_route_table" "private-route-table" {
   vpc_id       = aws_vpc.vpc.id
 
   route {
-    cidr_block = "0.0.0.0/0"
+    cidr_block = "10.0.4.0/24"
     gateway_id = aws_internet_gateway.internet-gateway.id
   }
 
@@ -138,17 +147,15 @@ resource "aws_route_table" "private-route-table" {
   }
 }
 
-resource "aws_route_table_association" "private-subnet-1-route-table-association" {
-  subnet_id           = aws_subnet.private-subnet-1.id
-  route_table_id      = aws_route_table.private-route-table.id
+resource "aws_route_table_association" "private-subnet-1-route-table-association"{
+  subnet_id = "${aws_subnet.private-subnet-1.id}"
+  route_table_id = "${aws_route_table.private-route-table.id}"
 }
-
-resource "aws_route_table_association" "private-subnet-2-route-table-association" {
-  subnet_id           = aws_subnet.private-subnet-2.id
-  route_table_id      = aws_route_table.private-route-table.id
+resource "aws_route_table_association" "private-subnet-2-route-table-association"{
+  subnet_id = "${aws_subnet.private-subnet-2.id}"
+  route_table_id = "${aws_route_table.private-route-table.id}"
 }
-
-resource "aws_route_table_association" "private-subnet-3-route-table-association" {
-  subnet_id           = aws_subnet.private-subnet-3.id
-  route_table_id      = aws_route_table.private-route-table.id
+resource "aws_route_table_association" "private-subnet-3-route-table-association"{
+  subnet_id = "${aws_subnet.private-subnet-3.id}"
+  route_table_id = "${aws_route_table.private-route-table.id}"
 }
