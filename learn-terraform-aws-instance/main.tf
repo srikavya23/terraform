@@ -14,7 +14,7 @@ required_providers {
     }
   }
 
-  required_version = ">=0.12.9"
+  required_version = ">=0.14.29"
 }
 provider "aws" {
   profile = "default"
