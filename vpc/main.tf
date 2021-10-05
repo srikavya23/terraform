@@ -1,3 +1,21 @@
+terraform {
+  backend "remote" {
+    organization = "zelarsoftprivatelimited"
+
+    workspaces {
+      name = "sample"
+    }
+  }
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 3.27"
+    }
+  }
+
+  required_version = ">= 0.14.9"
+}
+
 /*==== The VPC ======*/
 resource "aws_vpc" "vpc" {
   cidr_block           = "${var.vpc_cidr}"
