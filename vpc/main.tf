@@ -24,8 +24,6 @@ provider "aws" {
 # VPC Module
 ################################################################################
 
-module "vpc" {
-  source = "terraform-aws-modules/vpc/aws"
 
   name = "simple-example"
   cidr = "10.0.0.0/16"
