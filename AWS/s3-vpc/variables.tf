@@ -1,41 +1,25 @@
-variable "vpc-cidr" {
-  default       = "10.0.0.0/16"
-  description   = "VPC CIDR Block"
-  type          = string
+variable "vpc_cidr" {
+  type = string
+  description = "The IP range to use for the vpc"
+  default = "10.0.0.0/16"
 }
 
-variable "public-subnet-1-cidr" {
-  default       = "10.0.0.0/24"
-  description   = "Public Subnet 1 CIDR Block"
-  type          = string
+variable "public_subnet_numbers" {
+  type = map(number)
+  description = "Map of AZ to a number that should be used for public subnets"
+  default = {
+    "us-east-1a" = 1
+    "us-east-1b" = 2
+    "us-east-1c" = 3
+  }
 }
 
-variable "public-subnet-2-cidr" {
-  default       = "10.0.1.0/24"
-  description   = "Public Subnet 2 CIDR Block"
-  type          = string
-}
-
-variable "public-subnet-3-cidr" {
-  default       = "10.0.2.0/24"
-  description   = "Public Subnet 3 CIDR Block"
-  type          = string
-}
-
-variable "private-subnet-1-cidr" {
-  default       = "10.0.3.0/24"
-  description   = "Private Subnet 1 CIDR Block"
-  type          = string
-}
-
-variable "private-subnet-2-cidr" {
-  default       = "10.0.4.0/24"
-  description   = "Private Subnet 2 CIDR Block"
-  type          = string
-}
-
-variable "private-subnet-3-cidr" {
-  default       = "10.0.5.0/24"
-  description   = "Private Subnet 3 CIDR Block"
-  type          = string
+variable "private_subnet_numbers" {
+  type = map(number)
+  description = "Map of AZ to a number that should be used for private subnets"
+  default = {
+    "us-east-1a" = 4
+    "us-east-1b" = 5
+    "us-east-1c" = 6
+  }
 }
