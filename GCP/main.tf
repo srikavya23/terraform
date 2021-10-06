@@ -8,7 +8,7 @@ terraform {
 }
 
 provider "google" {
-  credentials = file("GOOGLE_APPLICATION_CREDENTIALS="/home/user/Downloads/shaped-manifest.json")
+  credentials = file("GOOGLE_APPLICATION_CREDENTIALS="/home/user/Downloads/shaped-manifest-327006.json")
 
   project = "shaped-manifest-327006"
   region  = "us-central1"
