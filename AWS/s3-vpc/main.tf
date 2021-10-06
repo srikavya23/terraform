@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    bucket = "tfbackup"
+    bucket = "kav123"
     key = "terraform.tfstate"
     region = "us-east-2"
   }
