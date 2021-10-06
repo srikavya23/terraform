@@ -9,6 +9,7 @@ terraform {
 
 provider "google" {
 
+  credentials = file("/Downloads/service-account-file.json")
   project = "shaped-manifest-327006"
   region  = "us-central1"
   zone    = "us-central1-c"
