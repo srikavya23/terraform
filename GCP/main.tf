@@ -9,7 +9,7 @@ terraform {
 
 provider "google" {
 
-  credentials = file("/home/kavya/Downloads/service-account-file.json")
+  credentials = file("/home/kavya/Downloads/shaped-manifest-327006-0ba12b5b56a8.json")
   project = "shaped-manifest-327006"
   region  = "us-central1"
   zone    = "us-central1-c"
